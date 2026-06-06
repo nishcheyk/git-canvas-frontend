@@ -21,7 +21,7 @@ export default function UniversePage({ data, onBack }) {
   return (
     <div className="relative w-full h-full min-h-screen bg-[#050510] overflow-hidden">
       {/* Main 3D graphic layers */}
-      <UniverseCanvas planets={data.planets} />
+      <UniverseCanvas planets={data.planets} avatarUrl={data.user.avatar_url} />
 
       {/* Top dashboard info widget */}
       <StatsBar onBack={onBack} stats={data.stats} user={data.user} />

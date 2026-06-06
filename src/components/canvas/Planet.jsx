@@ -2,7 +2,8 @@ import { useRef, useState } from 'react';
 import { useFrame } from '@react-three/fiber';
 import { Html } from '@react-three/drei';
 import * as THREE from 'three';
-import useUniverseStore from '../../store/universeStore';
+import { useSelector, useDispatch } from 'react-redux';
+import { setSelectedPlanet } from '../../store/slices/universeSlice';
 
 /**
  * Planet component mapping a single repository to an orbiting WebGL sphere.
@@ -16,8 +17,8 @@ export default function Planet({ planet }) {
   
   const [hovered, setHovered] = useState(false);
   
-  const selectedPlanet = useUniverseStore((state) => state.selectedPlanet);
-  const setSelectedPlanet = useUniverseStore((state) => state.setSelectedPlanet);
+  const dispatch = useDispatch();
+  const selectedPlanet = useSelector((state) => state.universe.selectedPlanet);
   
   // Angle of rotation around the Sun (randomized start point)
   const angleRef = useRef(Math.random() * Math.PI * 2);
@@ -75,7 +76,7 @@ export default function Planet({ planet }) {
         ref={planetRef}
         onClick={(e) => {
           e.stopPropagation();
-          setSelectedPlanet(planet);
+          dispatch(setSelectedPlanet(planet));
         }}
         onPointerOver={(e) => {
           e.stopPropagation();
