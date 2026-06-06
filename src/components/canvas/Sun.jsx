@@ -1,15 +1,12 @@
 import { useRef } from 'react';
 import { useFrame } from '@react-three/fiber';
 import { Html } from '@react-three/drei';
-import useUniverseStore from '../../store/universeStore';
-
 /**
  * Renders the central glowing Sun star representing the user profile.
  * Places the user's GitHub avatar at the center using a 3D HTML projection.
  */
-export default function Sun() {
+export default function Sun({ avatarUrl }) {
   const sunRef = useRef();
-  const avatarUrl = useUniverseStore((state) => state.userProfile?.avatar_url);
 
   // Slow rotation for the sun surface
   useFrame((state, delta) => {

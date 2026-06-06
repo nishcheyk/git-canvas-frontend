@@ -9,7 +9,7 @@ import Nebula from './Nebula';
  * Main WebGL universe rendering engine.
  * Sets up the Canvas, lights, mouse orbit controls, starfield, nebulae, and lists repo planets.
  */
-export default function Universe({ planets = [] }) {
+export default function Universe({ planets = [], avatarUrl }) {
   return (
     <div className="w-full h-full absolute inset-0 z-0">
       <Canvas
@@ -29,7 +29,7 @@ export default function Universe({ planets = [] }) {
         <Nebula />
 
         {/* Center glowing Sun core (Avatar) */}
-        <Sun />
+        <Sun avatarUrl={avatarUrl} />
 
         {/* Render orbiting planet nodes */}
         {planets.map((planet) => (
