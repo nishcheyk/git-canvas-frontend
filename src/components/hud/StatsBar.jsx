@@ -3,7 +3,7 @@ import { ArrowLeft, Star, Code, FolderGit, Share2 } from 'lucide-react';
 /**
  * Top HUD navigation overlay showing aggregate statistics and quick exit controls.
  */
-export default function StatsBar({ onBack, stats, user, onEmbedClick }) {
+export default function StatsBar({ onBack, stats, user, onEmbedClick, onReviewClick }) {
   return (
     <div className="absolute top-4 left-4 right-4 z-10 flex flex-col sm:flex-row sm:items-center justify-between gap-3 pointer-events-none select-none">
       
@@ -28,46 +28,58 @@ export default function StatsBar({ onBack, stats, user, onEmbedClick }) {
       </div>
       
       {/* Stats and Embed Button */}
-      <div className="flex items-center gap-3 pointer-events-auto">
+      <div className="flex items-center gap-2 sm:gap-3 pointer-events-auto">
         {/* Aggregated galaxy statistics */}
-        <div className="flex items-center gap-5 px-5 py-2 rounded-xl bg-[#080818]/70 border border-[#1b1b3a] backdrop-blur-md shadow-lg w-fit">
+        <div className="flex items-center gap-3 sm:gap-5 px-3 sm:px-5 py-2 rounded-xl bg-[#080818]/70 border border-[#1b1b3a] backdrop-blur-md shadow-lg w-fit">
           {/* Star aggregate */}
-          <div className="flex items-center gap-2.5">
+          <div className="flex items-center gap-1.5 sm:gap-2.5">
             <Star className="w-4 h-4 text-yellow-400 fill-yellow-400/20" />
             <div className="flex flex-col">
-              <span className="text-[9px] font-mono text-gray-500 uppercase tracking-widest leading-none">Stars</span>
-              <span className="text-xs font-mono font-bold text-gray-200 mt-0.5">{stats.total_stars}</span>
+              <span className="hidden sm:inline text-[9px] font-mono text-gray-500 uppercase tracking-widest leading-none">Stars</span>
+              <span className="text-xs font-mono font-bold text-gray-200 mt-0.5 sm:mt-0">{stats.total_stars}</span>
             </div>
           </div>
           
           <div className="h-5 w-px bg-indigo-900/35" />
           
           {/* Repo aggregate */}
-          <div className="flex items-center gap-2.5">
+          <div className="flex items-center gap-1.5 sm:gap-2.5">
             <FolderGit className="w-4 h-4 text-indigo-400" />
             <div className="flex flex-col">
-              <span className="text-[9px] font-mono text-gray-500 uppercase tracking-widest leading-none">Repos</span>
-              <span className="text-xs font-mono font-bold text-gray-200 mt-0.5">{stats.total_repos}</span>
+              <span className="hidden sm:inline text-[9px] font-mono text-gray-500 uppercase tracking-widest leading-none">Repos</span>
+              <span className="text-xs font-mono font-bold text-gray-200 mt-0.5 sm:mt-0">{stats.total_repos}</span>
             </div>
           </div>
           
           <div className="h-5 w-px bg-indigo-900/35" />
           
           {/* Top language aggregate */}
-          <div className="flex items-center gap-2.5">
+          <div className="flex items-center gap-1.5 sm:gap-2.5">
             <Code className="w-4 h-4 text-emerald-400" />
             <div className="flex flex-col">
-              <span className="text-[9px] font-mono text-gray-500 uppercase tracking-widest leading-none">Top Lang</span>
-              <span className="text-xs font-mono font-bold text-gray-200 mt-0.5">{stats.top_language}</span>
+              <span className="hidden sm:inline text-[9px] font-mono text-gray-500 uppercase tracking-widest leading-none">Top Lang</span>
+              <span className="text-xs font-mono font-bold text-gray-200 mt-0.5 sm:mt-0">{stats.top_language}</span>
             </div>
           </div>
         </div>
+
+        {/* AI Review Action Button */}
+        <button
+          onClick={onReviewClick}
+          title="Get AI Universe Review"
+          className="flex items-center justify-center gap-2 w-10 sm:w-auto px-0 sm:px-4 h-10 rounded-xl bg-[#080818]/70 border border-[#1b1b3a] hover:border-indigo-500/80 hover:text-indigo-400 text-gray-100 font-mono text-xs font-bold transition-all cursor-pointer backdrop-blur-md shadow-lg border-0 outline-none"
+        >
+          <svg className="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+            <path d="M12 2v4m0 12v4M4.93 4.93l2.83 2.83m8.48 8.48l2.83 2.83M2 12h4m12 0h4M4.93 19.07l2.83-2.83m8.48-8.48l2.83-2.83" />
+          </svg>
+          <span className="hidden sm:inline">AI Review</span>
+        </button>
 
         {/* Share/Embed Action Button */}
         <button
           onClick={onEmbedClick}
           title="Share or embed this universe"
-          className="flex items-center justify-center gap-2 px-4 h-10 rounded-xl bg-[#080818]/70 border border-[#1b1b3a] hover:border-indigo-500/80 hover:text-indigo-400 text-gray-100 font-mono text-xs font-bold transition-all cursor-pointer backdrop-blur-md shadow-lg border-0 outline-none"
+          className="flex items-center justify-center gap-2 w-10 sm:w-auto px-0 sm:px-4 h-10 rounded-xl bg-[#080818]/70 border border-[#1b1b3a] hover:border-indigo-500/80 hover:text-indigo-400 text-gray-100 font-mono text-xs font-bold transition-all cursor-pointer backdrop-blur-md shadow-lg border-0 outline-none"
         >
           <Share2 className="w-4 h-4" />
           <span className="hidden sm:inline">Embed</span>

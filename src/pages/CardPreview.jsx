@@ -17,7 +17,7 @@ export default function CardPreview() {
 
   const embedCodes = {
     markdown: `![CodeCanvas Universe](${cardUrl})`,
-    html: `<img src="${cardUrl}" alt="CodeCanvas Universe" />`,
+    html: `<img src="${cardUrl}" width="800" alt="CodeCanvas Universe" />`,
     url: cardUrl,
   };
 

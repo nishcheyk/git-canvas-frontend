@@ -1,10 +1,10 @@
-import { motion } from 'framer-motion';
 import { X, Star, GitFork, ExternalLink, Calendar, Database } from 'lucide-react';
 import { getLangClassName } from '../../lib/colors';
+import HudPanelWrapper from './HudPanelWrapper';
 
 /**
  * Slide-out HUD detail panel inspector that renders repository stats.
- * Uses Framer Motion spring layouts.
+ * Uses unified HudPanelWrapper for standard transitions and styles.
  */
 export default function RepoPanel({ planet, onClose }) {
   if (!planet) return null;
@@ -24,13 +24,10 @@ export default function RepoPanel({ planet, onClose }) {
     : `${planet.size} KB`;
 
   return (
-    <div className="absolute top-20 right-4 bottom-4 z-10 w-full max-w-sm pointer-events-none">
-      <motion.div
-        initial={{ x: '110%', opacity: 0 }}
-        animate={{ x: 0, opacity: 1 }}
-        exit={{ x: '110%', opacity: 0 }}
-        transition={{ type: 'spring', damping: 25, stiffness: 190 }}
-        className="w-full h-full glass-panel rounded-2xl border border-[#1b1b3a] p-6 flex flex-col pointer-events-auto shadow-2xl relative overflow-y-auto"
+    <div className="absolute top-20 right-4 bottom-4 left-4 sm:left-auto z-10 w-auto sm:w-full sm:max-w-sm pointer-events-none">
+      <HudPanelWrapper
+        direction="right"
+        className="h-full p-6 overflow-y-auto bg-space-dark/95"
       >
         {/* Exit Button */}
         <button
@@ -57,7 +54,7 @@ export default function RepoPanel({ planet, onClose }) {
 
         {/* Stars and Forks widgets */}
         <div className="grid grid-cols-2 gap-3 mt-5">
-          <div className="p-3 bg-[#050510]/50 border border-indigo-900/20 rounded-xl flex items-center gap-2.5">
+          <div className="p-3 bg-space-bg/50 border border-space-border/40 rounded-xl flex items-center gap-2.5">
             <Star className="w-4 h-4 text-yellow-400 fill-yellow-400/10" />
             <div className="flex flex-col">
               <span className="text-[9px] font-mono text-gray-500 uppercase leading-none">Stars</span>
@@ -65,7 +62,7 @@ export default function RepoPanel({ planet, onClose }) {
             </div>
           </div>
 
-          <div className="p-3 bg-[#050510]/50 border border-indigo-900/20 rounded-xl flex items-center gap-2.5">
+          <div className="p-3 bg-space-bg/50 border border-space-border/40 rounded-xl flex items-center gap-2.5">
             <GitFork className="w-4 h-4 text-indigo-400" />
             <div className="flex flex-col">
               <span className="text-[9px] font-mono text-gray-500 uppercase leading-none">Forks</span>
@@ -83,7 +80,7 @@ export default function RepoPanel({ planet, onClose }) {
         </div>
 
         {/* Meta file indicators */}
-        <div className="mt-6 pt-4 border-t border-indigo-900/25 space-y-3">
+        <div className="mt-6 pt-4 border-t border-space-border/40 space-y-3">
           <div className="flex items-center justify-between text-xs font-mono">
             <span className="text-gray-500 flex items-center gap-1.5">
               <Calendar className="w-3.5 h-3.5" /> Updated
@@ -103,12 +100,12 @@ export default function RepoPanel({ planet, onClose }) {
           href={planet.url}
           target="_blank"
           rel="noopener noreferrer"
-          className="mt-6 w-full py-3 bg-indigo-600 hover:bg-indigo-500 text-white font-semibold rounded-xl flex items-center justify-center gap-2 cursor-pointer transition-all duration-300 shadow-glow-accent hover:shadow-indigo-500/30 text-sm"
+          className="mt-6 w-full py-3 bg-space-accent hover:bg-space-accent/90 text-white font-semibold rounded-xl flex items-center justify-center gap-2 cursor-pointer transition-all duration-300 shadow-glow-accent hover:shadow-space-accent/30 text-sm"
         >
           <span>Explore Codebase</span>
           <ExternalLink className="w-4 h-4" />
         </a>
-      </motion.div>
+      </HudPanelWrapper>
     </div>
   );
 }

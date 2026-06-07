@@ -1,10 +1,11 @@
 import { useState } from 'react';
-import { motion } from 'framer-motion';
 import { X, Copy, Check, ExternalLink } from 'lucide-react';
+import HudPanelWrapper from './HudPanelWrapper';
 
 /**
  * Slide-up HUD panel that provides Markdown, HTML, and raw image URLs
  * to embed the CodeCanvas card in GitHub Profile READMEs.
+ * Uses HudPanelWrapper for unified transitions and styles.
  */
 export default function EmbedPanel({ username, onClose }) {
   const [activeTab, setActiveTab] = useState('markdown'); // 'markdown' | 'html' | 'url'
@@ -17,7 +18,7 @@ export default function EmbedPanel({ username, onClose }) {
   // Create embed codes
   const embedCodes = {
     markdown: `![CodeCanvas Universe](${cardUrl})`,
-    html: `<img src="${cardUrl}" alt="CodeCanvas Universe" />`,
+    html: `<img src="${cardUrl}" width="800" alt="CodeCanvas Universe" />`,
     url: cardUrl,
   };
 
@@ -33,12 +34,9 @@ export default function EmbedPanel({ username, onClose }) {
 
   return (
     <div className="absolute bottom-4 left-1/2 -translate-x-1/2 z-20 w-full max-w-lg pointer-events-none px-4">
-      <motion.div
-        initial={{ y: '110%', opacity: 0 }}
-        animate={{ y: 0, opacity: 1 }}
-        exit={{ y: '110%', opacity: 0 }}
-        transition={{ type: 'spring', damping: 25, stiffness: 190 }}
-        className="w-full glass-panel rounded-2xl border border-[#1b1b3a] p-5 flex flex-col pointer-events-auto shadow-2xl relative overflow-hidden backdrop-blur-lg bg-[#080818]/90"
+      <HudPanelWrapper
+        direction="bottom"
+        className="w-full p-5 overflow-hidden backdrop-blur-lg bg-space-dark/90 border-space-border"
       >
         {/* Close Button */}
         <button
@@ -57,11 +55,11 @@ export default function EmbedPanel({ username, onClose }) {
         </p>
 
         {/* Live Card Preview */}
-        <div className="w-full bg-[#020818] border border-[#1b1b3a]/60 rounded-xl p-2.5 mb-4 flex items-center justify-center min-h-[100px] overflow-hidden">
+        <div className="w-full bg-space-dark border border-space-border/60 rounded-xl p-2.5 mb-4 flex items-center justify-center min-h-[100px] overflow-hidden">
           <img
             src={cardUrl}
             alt="CodeCanvas Card Preview"
-            className="w-full h-auto max-h-[110px] rounded-lg object-contain bg-[#020818]"
+            className="w-full h-auto max-h-[110px] rounded-lg object-contain bg-space-dark"
             onError={(e) => {
               e.target.onerror = null;
               e.target.src = `${apiBaseUrl}/api/card/nishcheyk`; // Fallback image check
@@ -70,7 +68,7 @@ export default function EmbedPanel({ username, onClose }) {
         </div>
 
         {/* Tab System */}
-        <div className="flex border-b border-[#1b1b3a] text-[10px] font-bold font-mono tracking-wider uppercase mb-3">
+        <div className="flex border-b border-space-border text-[10px] font-bold font-mono tracking-wider uppercase mb-3">
           {['markdown', 'html', 'url'].map((tab) => (
             <button
               key={tab}
@@ -87,7 +85,7 @@ export default function EmbedPanel({ username, onClose }) {
         </div>
 
         {/* Embed Output with Copy Button */}
-        <div className="relative bg-[#050510]/80 border border-[#1b1b3a]/40 rounded-xl p-3 pr-12 font-mono text-xs text-gray-300 break-all leading-normal min-h-[48px] flex items-center">
+        <div className="relative bg-space-bg/80 border border-space-border/40 rounded-xl p-3 pr-12 font-mono text-xs text-gray-300 break-all leading-normal min-h-[48px] flex items-center">
           <span className="select-all pr-2">{embedCodes[activeTab]}</span>
           <button
             onClick={() => handleCopy(embedCodes[activeTab], activeTab)}
@@ -121,7 +119,7 @@ export default function EmbedPanel({ username, onClose }) {
             <ExternalLink className="w-3 h-3" />
           </a>
         </div>
-      </motion.div>
+      </HudPanelWrapper>
     </div>
   );
 }
