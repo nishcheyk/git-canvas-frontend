@@ -1,36 +1,51 @@
-import Hero from '../components/landing/Hero';
-import SearchInput from '../components/landing/SearchInput';
+import { useNavigate } from 'react-router-dom';
+import Navbar from '../components/landing/Navbar';
+import HeroSection from '../components/landing/HeroSection';
+import DemoSection from '../components/landing/DemoSection';
+import HowItWorks from '../components/landing/HowItWorks';
+import EmbedSection from '../components/landing/EmbedSection';
+import AboutSection from '../components/landing/AboutSection';
+import Footer from '../components/landing/Footer';
+
+import ScrollAnimateWrapper from '../components/landing/ScrollAnimateWrapper';
 
 /**
- * Main landing page layout. Displays code canvas visual headers,
- * background cosmic depth grid, search inputs, and errors.
+ * Redesigned Home component. Renders a full-scrollable, responsive landing page
+ * that functions as a launchable marketing website for CodeCanvas.
+ * Supports searching and displays profile retrieval errors when navigating.
  */
 export default function Home({ onSearch, isLoading, error }) {
+  const navigate = useNavigate();
+
+  // Fallback search navigation if onSearch is not explicitly passed as a prop
+  const handleSearch = onSearch || ((username) => {
+    navigate(`/universe/${username}`);
+  });
+
   return (
-    <div className="relative w-full h-full min-h-screen bg-[#050510] flex flex-col items-center justify-center overflow-hidden">
-      {/* Visual background depth grid */}
-      <div className="absolute inset-0 bg-[linear-gradient(to_right,rgba(255,255,255,0.02)_1px,transparent_1px),linear-gradient(to_bottom,rgba(255,255,255,0.02)_1px,transparent_1px)] bg-[size:4rem_4rem] [mask-image:radial-gradient(ellipse_60%_50%_at_50%_50%,#000_70%,transparent_100%)]" />
+    <div className="relative w-full h-full min-h-screen bg-space-bg overflow-y-auto overflow-x-hidden scroll-smooth">
+      {/* Scroll Progress Bar */}
+      <ScrollAnimateWrapper 
+        animationType="scroll-progress" 
+        className="fixed top-0 left-0 right-0 h-[2px] bg-indigo-500 z-[100]" 
+      />
 
-      {/* Decorative cosmic central ambient glow */}
-      <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[400px] h-[400px] bg-indigo-500/5 rounded-full blur-[100px] pointer-events-none" />
-
-      <div className="relative z-10 space-y-10 flex flex-col items-center">
-        <Hero />
-        
-        {/* Search Console */}
-        <SearchInput onSearch={onSearch} isLoading={isLoading} />
-        
-        {/* Error notification banner */}
-        {error && (
-          <div className="text-red-400 font-mono text-xs text-center border border-red-500/25 bg-red-950/20 px-4 py-2.5 rounded-lg animate-fade-in max-w-sm">
-            {error.data?.detail || error.message || 'Error scanning the developer universe. Please check the spelling or rate limit.'}
-          </div>
-        )}
+      {/* Background Floating Orbs */}
+      <div className="fixed inset-0 overflow-hidden pointer-events-none z-0">
+        <div className="absolute top-[10%] left-[20%] w-[300px] h-[300px] rounded-full bg-indigo-500 opacity-[0.06] blur-[120px] animate-float-1" />
+        <div className="absolute top-[40%] right-[10%] w-[250px] h-[250px] rounded-full bg-[#0ea5e9] opacity-[0.08] blur-[120px] animate-float-2" />
+        <div className="absolute bottom-[20%] left-[30%] w-[350px] h-[350px] rounded-full bg-[#a855f7] opacity-[0.06] blur-[120px] animate-float-3" />
+        <div className="absolute top-[60%] left-[5%] w-[200px] h-[200px] rounded-full bg-indigo-500 opacity-[0.07] blur-[120px] animate-float-4" />
       </div>
 
-      {/* Subtle credits footer */}
-      <div className="absolute bottom-6 left-1/2 -translate-x-1/2 text-[9px] font-mono text-gray-600 select-none">
-        CODECANVAS &bull; BUILT FOR ENTERPRISE DEVS
+      <div className="relative z-10">
+        <Navbar />
+        <HeroSection onSearch={handleSearch} isLoading={isLoading} error={error} />
+        <DemoSection />
+        <HowItWorks />
+        <EmbedSection />
+        <AboutSection />
+        <Footer />
       </div>
     </div>
   );

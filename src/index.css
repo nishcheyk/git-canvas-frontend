@@ -137,3 +137,14 @@
   border: 1px solid var(--lang-color);
   box-shadow: 0 0 8px color-mix(in srgb, var(--lang-color) 15%, transparent);
 }
+
+/* Floating Ambient Orbs CSS */
+@keyframes float-1 { 0%,100% { transform: translate(0,0) } 50% { transform: translate(30px,-20px) } }
+@keyframes float-2 { 0%,100% { transform: translate(0,0) } 50% { transform: translate(-20px,30px) } }
+@keyframes float-3 { 0%,100% { transform: translate(0,0) } 50% { transform: translate(40px,20px) } }
+@keyframes float-4 { 0%,100% { transform: translate(0,0) } 50% { transform: translate(-30px,-30px) } }
+
+.animate-float-1 { animation: float-1 8s ease-in-out infinite; }
+.animate-float-2 { animation: float-2 10s ease-in-out infinite; }
+.animate-float-3 { animation: float-3 9s ease-in-out infinite; }
+.animate-float-4 { animation: float-4 11s ease-in-out infinite; }
