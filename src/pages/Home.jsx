@@ -1,4 +1,5 @@
 import { useNavigate } from 'react-router-dom';
+import { Helmet } from 'react-helmet-async';
 import Navbar from '../components/landing/Navbar';
 import HeroSection from '../components/landing/HeroSection';
 import DemoSection from '../components/landing/DemoSection';
@@ -24,6 +25,10 @@ export default function Home({ onSearch, isLoading, error }) {
 
   return (
     <div className="relative w-full h-full min-h-screen bg-space-bg overflow-y-auto overflow-x-hidden scroll-smooth">
+      <Helmet>
+        <title>CodeCanvas | Your GitHub Activity as a Living Universe</title>
+        <meta name="description" content="Transform your GitHub profile into an interactive 3D universe. Explore repositories, stars, and languages in real-time." />
+      </Helmet>
       {/* Scroll Progress Bar */}
       <ScrollAnimateWrapper 
         animationType="scroll-progress" 
