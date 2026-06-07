@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { Info, ChevronDown } from 'lucide-react';
 import { LANGUAGE_COLORS, getLangClassName } from '../../lib/colors';
 
 /**
@@ -6,9 +7,34 @@ import { LANGUAGE_COLORS, getLangClassName } from '../../lib/colors';
  */
 export default function Legend() {
   const [activeTab, setActiveTab] = useState('languages'); // 'languages' | 'mechanics'
+  const [isExpanded, setIsExpanded] = useState(window.innerWidth >= 768);
+
+  if (!isExpanded) {
+    return (
+      <button
+        onClick={() => setIsExpanded(true)}
+        className="absolute bottom-4 left-4 z-10 flex items-center gap-2 px-3 py-2.5 rounded-xl bg-[#080818]/85 border border-[#1b1b3a] hover:border-indigo-500/80 hover:text-indigo-400 text-gray-200 transition-all pointer-events-auto cursor-pointer shadow-lg select-none outline-none font-mono text-[10px] font-bold uppercase tracking-wider backdrop-blur-md"
+      >
+        <Info className="w-4 h-4 text-indigo-400" />
+        <span>Legend</span>
+      </button>
+    );
+  }
 
   return (
     <div className="absolute bottom-4 left-4 z-10 p-4 rounded-xl bg-[#080818]/85 border border-[#1b1b3a] backdrop-blur-md shadow-2xl pointer-events-auto max-h-[45vh] w-64 flex flex-col transition-all duration-300">
+      {/* Header with Collapse Trigger */}
+      <div className="flex items-center justify-between mb-2 pb-1.5 border-b border-[#1b1b3a]/65">
+        <span className="text-[9px] font-bold font-mono text-gray-400 uppercase tracking-widest">System Key</span>
+        <button
+          onClick={() => setIsExpanded(false)}
+          className="text-gray-500 hover:text-gray-300 p-0.5 rounded transition cursor-pointer outline-none"
+          title="Collapse Legend"
+        >
+          <ChevronDown className="w-3.5 h-3.5" />
+        </button>
+      </div>
+
       {/* Sleek Tab Bar */}
       <div className="flex border-b border-[#1b1b3a] mb-3 pb-1 text-[10px] font-bold font-mono tracking-wider uppercase">
         <button
