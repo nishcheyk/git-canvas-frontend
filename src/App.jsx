@@ -1,41 +1,30 @@
-import { useState, useEffect } from 'react';
+import { useEffect } from 'react';
 import { useDispatch } from 'react-redux';
+import { BrowserRouter as Router, Routes, Route, useParams, useNavigate } from 'react-router-dom';
 import { useGetUniverseByUsernameQuery } from './store/services/githubApi';
 import { resetUniverse } from './store/slices/universeSlice';
 import Home from './pages/Home';
 import UniversePage from './pages/Universe';
+import CardPreview from './pages/CardPreview';
 
 /**
- * Main application frame. Uses state queries to manage transitions
- * between the landing dashboard search and the WebGL canvas galaxy.
+ * Route wrapper component to handle data loading, loading shimmers,
+ * and error screens for a specific universe username.
  */
-export default function App() {
+function UniverseRouteWrapper() {
+  const { username } = useParams();
+  const navigate = useNavigate();
   const dispatch = useDispatch();
-  const [activeUsername, setActiveUsername] = useState('');
-  
-  // RTK Query fetches data and handles store cache states
-  const { data, error, isFetching, isError } = useGetUniverseByUsernameQuery(activeUsername, {
-    skip: !activeUsername,
+
+  const { data, error, isFetching, isError } = useGetUniverseByUsernameQuery(username, {
+    skip: !username,
   });
 
-  const handleSearch = (username) => {
-    setActiveUsername(username);
-  };
-
   const handleBack = () => {
-    setActiveUsername('');
     dispatch(resetUniverse());
+    navigate('/');
   };
 
-  // If search encounters error, clean username to allow search retry
-  useEffect(() => {
-    if (isError && !isFetching) {
-      // Keep username state in search input so user can see what failed,
-      // but reset query parameter so they can input again
-    }
-  }, [isError, isFetching]);
-
-  // Loading state shimmer panel
   if (isFetching) {
     return (
       <div className="relative w-full h-full min-h-screen bg-[#050510] flex flex-col items-center justify-center overflow-hidden">
@@ -55,30 +44,61 @@ export default function App() {
           
           {/* Shimmer subtext */}
           <div className="scanner-shimmer px-4 py-1.5 rounded-lg border border-indigo-900/30 text-[10px] font-mono text-indigo-400 tracking-widest uppercase">
-            AGGREGATING GALAXY FOR @{activeUsername}
+            AGGREGATING GALAXY FOR @{username}
           </div>
         </div>
       </div>
     );
   }
 
-  // Map API error responses cleanly
-  const displayError = error 
-    ? (error.status === 404 
-        ? { message: `Developer profile "@${activeUsername}" not found.` } 
-        : (error.data?.detail ? { message: error.data.detail } : { message: 'Internal Server Error. Please verify your connection.' }))
-    : null;
+  if (isError) {
+    const displayError = error 
+      ? (error.status === 404 
+          ? { message: `Developer profile "@${username}" not found.` } 
+          : (error.data?.detail ? { message: error.data.detail } : { message: 'Internal Server Error. Please verify your connection.' }))
+      : { message: 'An unexpected error occurred.' };
 
-  // Render main 3D page if search completes successfully
-  if (data && activeUsername && !isError) {
+    return (
+      <Home 
+        onSearch={(user) => navigate(`/universe/${user}`)} 
+        isLoading={false} 
+        error={displayError} 
+      />
+    );
+  }
+
+  if (data && !isError) {
     return <UniversePage data={data} onBack={handleBack} />;
   }
 
+  return null;
+}
+
+/**
+ * Simple wrapper for the main landing dashboard root path.
+ */
+function HomeRouteWrapper() {
+  const navigate = useNavigate();
   return (
     <Home 
-      onSearch={handleSearch} 
-      isLoading={isFetching} 
-      error={displayError} 
+      onSearch={(username) => navigate(`/universe/${username}`)} 
+      isLoading={false} 
+      error={null} 
     />
+  );
+}
+
+/**
+ * Main application frame. Registers router configurations.
+ */
+export default function App() {
+  return (
+    <Router>
+      <Routes>
+        <Route path="/" element={<HomeRouteWrapper />} />
+        <Route path="/universe/:username" element={<UniverseRouteWrapper />} />
+        <Route path="/preview/:username" element={<CardPreview />} />
+      </Routes>
+    </Router>
   );
 }

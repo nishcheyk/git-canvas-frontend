@@ -1,3 +1,4 @@
+import { useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { AnimatePresence } from 'framer-motion';
 import { clearSelectedPlanet } from '../store/slices/universeSlice';
@@ -5,6 +6,7 @@ import UniverseCanvas from '../components/canvas/Universe';
 import StatsBar from '../components/hud/StatsBar';
 import Legend from '../components/hud/Legend';
 import RepoPanel from '../components/hud/RepoPanel';
+import EmbedPanel from '../components/hud/EmbedPanel';
 
 /**
  * 3D visual workspace page layout, composing the WebGL graphics canvas
@@ -13,6 +15,7 @@ import RepoPanel from '../components/hud/RepoPanel';
 export default function UniversePage({ data, onBack }) {
   const dispatch = useDispatch();
   const selectedPlanet = useSelector((state) => state.universe.selectedPlanet);
+  const [showEmbedPanel, setShowEmbedPanel] = useState(false);
 
   const handleClosePanel = () => {
     dispatch(clearSelectedPlanet());
@@ -24,7 +27,12 @@ export default function UniversePage({ data, onBack }) {
       <UniverseCanvas planets={data.planets} avatarUrl={data.user.avatar_url} />
 
       {/* Top dashboard info widget */}
-      <StatsBar onBack={onBack} stats={data.stats} user={data.user} />
+      <StatsBar 
+        onBack={onBack} 
+        stats={data.stats} 
+        user={data.user} 
+        onEmbedClick={() => setShowEmbedPanel(!showEmbedPanel)}
+      />
 
       {/* Legend sidebar */}
       <Legend />
@@ -35,6 +43,16 @@ export default function UniversePage({ data, onBack }) {
           <RepoPanel
             planet={selectedPlanet}
             onClose={handleClosePanel}
+          />
+        )}
+      </AnimatePresence>
+
+      {/* Embed instructions panel */}
+      <AnimatePresence>
+        {showEmbedPanel && (
+          <EmbedPanel
+            username={data.user.login}
+            onClose={() => setShowEmbedPanel(false)}
           />
         )}
       </AnimatePresence>
