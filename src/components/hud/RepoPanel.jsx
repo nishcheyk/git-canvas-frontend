@@ -1,5 +1,6 @@
 import { motion } from 'framer-motion';
 import { X, Star, GitFork, ExternalLink, Calendar, Database } from 'lucide-react';
+import { getLangClassName } from '../../lib/colors';
 
 /**
  * Slide-out HUD detail panel inspector that renders repository stats.
@@ -43,12 +44,7 @@ export default function RepoPanel({ planet, onClose }) {
         {/* Coded language badge */}
         <div className="mt-2 flex">
           <span 
-            className="text-[9px] font-mono font-bold px-3 py-1 rounded-full text-white/95 uppercase tracking-wider"
-            style={{ 
-              backgroundColor: `${planet.color}35`, 
-              border: `1px solid ${planet.color}`,
-              boxShadow: `0 0 8px ${planet.color}25`
-            }}
+            className={`text-[9px] font-mono font-bold px-3 py-1 rounded-full text-white/95 uppercase tracking-wider lang-color-${getLangClassName(planet.language)} lang-badge`}
           >
             {planet.language}
           </span>
