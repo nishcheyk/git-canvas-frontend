@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { LANGUAGE_COLORS } from '../../lib/colors';
+import { LANGUAGE_COLORS, getLangClassName } from '../../lib/colors';
 
 /**
  * Sidebar overlay explaining the celestial mapping rules and language color key.
@@ -33,17 +33,13 @@ export default function Legend() {
         <div className="space-y-2.5 overflow-y-auto pr-1 flex-1 custom-scrollbar">
           {Object.entries(LANGUAGE_COLORS)
             .filter(([lang]) => lang !== 'Unknown')
-            .map(([lang, color]) => (
+            .map(([lang]) => (
               <div 
                 key={lang} 
                 className="flex items-center gap-2.5 text-xs font-mono select-none"
               >
                 <span
-                  className="w-2.5 h-2.5 rounded-full inline-block shrink-0"
-                  style={{
-                    backgroundColor: color,
-                    boxShadow: `0 0 6px ${color}80`
-                  }}
+                  className={`w-2.5 h-2.5 rounded-full inline-block shrink-0 lang-color-${getLangClassName(lang)} lang-dot`}
                 />
                 <span className="text-gray-300 capitalize">{lang}</span>
               </div>
@@ -52,8 +48,7 @@ export default function Legend() {
           {/* Fallback unknown marker */}
           <div className="flex items-center gap-2.5 text-xs font-mono select-none">
             <span 
-              className="w-2.5 h-2.5 rounded-full inline-block shrink-0 bg-gray-500"
-              style={{ boxShadow: '0 0 6px #66666680' }}
+              className="w-2.5 h-2.5 rounded-full inline-block shrink-0 lang-color-unknown lang-dot"
             />
             <span className="text-gray-400">Others</span>
           </div>

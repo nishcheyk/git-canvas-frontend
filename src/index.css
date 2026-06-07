@@ -107,3 +107,33 @@
   background-size: 200% 100%;
   animation: shimmer 3s infinite linear;
 }
+
+/* Language Color Classes (Removes inline style dependencies) */
+.lang-color-javascript { --lang-color: #F7DF1E; }
+.lang-color-typescript { --lang-color: #3178C6; }
+.lang-color-python { --lang-color: #3572A5; }
+.lang-color-rust { --lang-color: #DEA584; }
+.lang-color-go { --lang-color: #00ADD8; }
+.lang-color-css { --lang-color: #563D7C; }
+.lang-color-html { --lang-color: #E34C26; }
+.lang-color-c-plus-plus { --lang-color: #F34B7D; }
+.lang-color-c-sharp { --lang-color: #178600; }
+.lang-color-php { --lang-color: #4F5D95; }
+.lang-color-java { --lang-color: #B07219; }
+.lang-color-ruby { --lang-color: #701516; }
+.lang-color-shell { --lang-color: #89E051; }
+.lang-color-swift { --lang-color: #F05138; }
+.lang-color-kotlin { --lang-color: #A97BFF; }
+.lang-color-c { --lang-color: #555555; }
+.lang-color-unknown { --lang-color: #888888; }
+
+.lang-dot {
+  background-color: var(--lang-color);
+  box-shadow: 0 0 6px var(--lang-color);
+}
+
+.lang-badge {
+  background-color: color-mix(in srgb, var(--lang-color) 20%, transparent);
+  border: 1px solid var(--lang-color);
+  box-shadow: 0 0 8px color-mix(in srgb, var(--lang-color) 15%, transparent);
+}

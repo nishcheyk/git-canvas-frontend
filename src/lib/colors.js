@@ -37,3 +37,16 @@ export const getLanguageColor = (lang) => {
   
   return matchedKey ? LANGUAGE_COLORS[matchedKey] : LANGUAGE_COLORS.Unknown;
 };
+
+/**
+ * Normalizes a language name to a safe CSS class name format.
+ * @param {string} lang - The name of the programming language.
+ * @returns {string} The normalized class name.
+ */
+export const getLangClassName = (lang) => {
+  if (!lang) return 'unknown';
+  const l = lang.toLowerCase();
+  if (l === 'c++') return 'c-plus-plus';
+  if (l === 'c#') return 'c-sharp';
+  return l.replace(/[^a-z0-9]/g, '-');
+};

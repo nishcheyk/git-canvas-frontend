@@ -4,6 +4,7 @@ import { Html } from '@react-three/drei';
 import * as THREE from 'three';
 import { useSelector, useDispatch } from 'react-redux';
 import { setSelectedPlanet } from '../../store/slices/universeSlice';
+import { getLangClassName } from '../../lib/colors';
 
 /**
  * Planet component mapping a single repository to an orbiting WebGL sphere.
@@ -123,12 +124,11 @@ export default function Planet({ planet }) {
           <Html
             distanceFactor={10}
             center
-            style={{ pointerEvents: 'none' }}
+            className="pointer-events-none"
           >
             <div className="bg-[#050510]/95 border border-[#1b1b3a] px-3 py-1.5 rounded-lg text-xs font-mono text-white shadow-2xl flex items-center gap-2 whitespace-nowrap animate-fade-in backdrop-blur-md">
               <span
-                className="w-2.5 h-2.5 rounded-full inline-block"
-                style={{ backgroundColor: color }}
+                className={`w-2.5 h-2.5 rounded-full inline-block lang-color-${getLangClassName(planet.language)} lang-dot`}
               />
               <span className="font-semibold text-gray-100">{name}</span>
               <span className="text-yellow-400">★ {planet.stars}</span>
