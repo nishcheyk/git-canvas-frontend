@@ -2,10 +2,6 @@ import { useState } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
 import { AnimatePresence } from 'framer-motion';
-<<<<<<< HEAD
-=======
-import { Helmet } from 'react-helmet-async';
->>>>>>> 513b022 (feat: Implement AI Code Review UI and SEO enhancements)
 import { clearSelectedPlanet, resetUniverse } from '../store/slices/universeSlice';
 import { useGetUniverseByUsernameQuery } from '../store/services/githubApi';
 import UniverseCanvas from '../components/canvas/Universe';
