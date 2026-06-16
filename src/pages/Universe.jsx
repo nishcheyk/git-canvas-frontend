@@ -2,6 +2,7 @@ import { useState } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
 import { AnimatePresence } from 'framer-motion';
+import { Helmet } from 'react-helmet-async';
 import { clearSelectedPlanet, resetUniverse } from '../store/slices/universeSlice';
 import { useGetUniverseByUsernameQuery } from '../store/services/githubApi';
 import UniverseCanvas from '../components/canvas/Universe';
